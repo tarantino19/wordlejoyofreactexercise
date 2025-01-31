@@ -1,4 +1,10 @@
-const GuessInput = ({ tentativeGuess, setTentativeGuess, onHandleSubmitAnswer }) => {
+import React from 'react';
+
+const GuessInput = ({ tentativeGuess, setTentativeGuess, onHandleSubmitAnswer, allowInput = true }) => {
+	if (!allowInput) {
+		return <p>You win/You loss</p>;
+	}
+
 	return (
 		<>
 			<form onSubmit={onHandleSubmitAnswer} className='guess-input-wrapper'>

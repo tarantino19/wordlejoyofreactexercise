@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
 import Guesses from './Guesses';
@@ -11,32 +10,35 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-	const [tentativeGuess, setTentativeGuess] = React.useState('');
+	const [guess, setGuess] = React.useState('');
 	const [guessList, setGuessList] = React.useState([]);
 
 	const onHandleSubmitAnswer = (e) => {
 		e.preventDefault();
-		console.log({ guess: tentativeGuess.toUpperCase() });
+		console.log({ guess: guess.toUpperCase() });
 
-		const nextGuess = {
-			value: tentativeGuess,
-		};
-		console.log('nextGuess', nextGuess);
-
-		const newGuessList = [...guessList, nextGuess];
-		console.log('newGuessList', newGuessList);
-		setGuessList(newGuessList);
-		setTentativeGuess('');
+		if (guessList.length < 6) {
+			const nextGuess = {
+				value: guess,
+				id: Math.random(),
+			};
+			const newGuessList = [...guessList, nextGuess];
+			setGuessList(newGuessList);
+			setGuess('');
+		}
 	};
+
+	const allowInput = guessList.length < 5;
 
 	return (
 		<>
 			<b>Welcome to Wordle bruh</b>
 			<Guesses guessList={guessList} />
 			<GuessInput
-				tentativeGuess={tentativeGuess}
-				setTentativeGuess={setTentativeGuess}
+				tentativeGuess={guess}
+				setTentativeGuess={setGuess}
 				onHandleSubmitAnswer={onHandleSubmitAnswer}
+				allowInput={allowInput}
 			/>
 		</>
 	);
